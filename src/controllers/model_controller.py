@@ -1,6 +1,6 @@
 from src import app
 from flask import Blueprint, request, jsonify
-from bson.json_util import dumps
+from bson.json_util import dumps, loads
 from src import mongo
 
 models = Blueprint("models", __name__)
@@ -11,4 +11,8 @@ def get_models():
   res = mongo.db.models.find({"model_id": model_id})
   listed = list(res)
 
-  return dumps(listed)
+  for doc in listed:
+    if '_id' in doc:
+      doc['_id'] = str(doc['_id'])
+
+  return jsonify(listed)
