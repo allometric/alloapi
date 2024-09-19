@@ -26,8 +26,6 @@ mongo_uri = "mongodb+srv://{}:{}@allocluster.81k2sis.mongodb.net/allodata?retryW
 # Set the URI in the config
 app.config['MONGO_URI'] = mongo_uri
 
-print(mongo_uri)
-
 mongo = PyMongo(app)
 
 from src.routes import api
