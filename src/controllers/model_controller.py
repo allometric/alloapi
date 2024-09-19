@@ -1,4 +1,4 @@
-from src import app
+from src import app, config
 from flask import Blueprint, request, jsonify
 from bson.json_util import dumps, loads
 from src import mongo
@@ -6,6 +6,7 @@ from src import mongo
 models = Blueprint("models", __name__)
 
 descriptor_keys = ["country", "region"]
+taxa_keys = ["family", "genus", "species"]
 
 def listify(request_args):
   """Ensures each argument is wrapped in a list if it isn't already
@@ -37,25 +38,30 @@ def build_models_filter(request_args):
   for key in defined_keys:
     if key in descriptor_keys:
       key_fmt = "descriptors." + key
-      find_obj[key_fmt] = {
-        "$in": request_args[key]
-      }
-
+    elif key in taxa_keys:
+      key_fmt = "descriptors.taxa." + key
+    elif key == "response":
+      key_fmt = "response.name"
+    elif key == "covariates":
+      key_fmt = "covariates.name"
+    else:
+      key_fmt = key
+    
+    find_obj[key_fmt] = {
+      "$in": request_args[key]
+    }
 
   return find_obj
 
 @models.route("/", methods = ["GET"])
 def get_models():
-  model_id = request.args.get("model_id")
-  country = request.args.get("country")
-
   # Makes our arguments mutable
   args_dict = dict(request.args)
 
   listified_args = listify(args_dict)
   filter = build_models_filter(listified_args)
 
-  res = mongo.db.models.find(filter)
+  res = mongo.db.models.find(filter, limit = config.MODEL_LIMIT)
   listed = list(res)
 
   for doc in listed:

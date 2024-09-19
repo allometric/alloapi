@@ -4,3 +4,4 @@ class DevConfig:
     self.DEBUG = True
     self.PORT = 3000
     self.HOST = '0.0.0.0'
+    self.MODEL_LIMIT = 50
