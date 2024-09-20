@@ -53,13 +53,19 @@ def build_models_filter(request_args):
 
   return find_obj
 
-@models.route("/", methods = ["GET"])
-def get_models():
-  # Makes our arguments mutable
-  args_dict = dict(request.args)
+def dictify(request_args):
+  args_dict = {}
 
-  listified_args = listify(args_dict)
-  filter = build_models_filter(listified_args)
+  for key in request_args:
+    args_dict[key] = request_args.getlist(key)
+
+  return args_dict
+
+@models.route("/", methods = ["POST"])
+def get_models():
+  filter = request.json
+
+  # TODO sanitize filter
 
   res = mongo.db.models.find(filter, limit = config.MODEL_LIMIT)
   listed = list(res)
