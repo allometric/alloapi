@@ -29,6 +29,6 @@ app.config['MONGO_URI'] = mongo_uri
 mongo = PyMongo(app)
 
 from src.routes import api
-app.register_blueprint(api, url_prefix = "/api")
+app.register_blueprint(api)
 
 from src.models.allomodel_model import AlloModel
