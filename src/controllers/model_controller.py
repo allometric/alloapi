@@ -4,6 +4,7 @@ from bson.json_util import dumps, loads
 from src import mongo
 
 models = Blueprint("models", __name__)
+model = Blueprint("model", __name__)
 
 descriptor_keys = ["country", "region"]
 taxa_keys = ["family", "genus", "species"]
@@ -75,3 +76,16 @@ def get_models():
       doc['_id'] = str(doc['_id'])
 
   return jsonify(listed)
+
+@model.route("/<model_id>", methods = ["GET"])
+def get_model(model_id):
+  filter = {"model_id": model_id}
+  res = mongo.db.models.find(filter)
+
+  listed = list(res)
+
+  for doc in listed:
+    if '_id' in doc:
+      doc['_id'] = str(doc['_id'])
+
+  return jsonify(listed[0])
