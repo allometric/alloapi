@@ -3,6 +3,5 @@ pathlib
 python-dotenv
 PyJWT
 flask-bcrypt
-mysqlclient
 pymongo
 Flask-PyMongo
