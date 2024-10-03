@@ -24,16 +24,16 @@ jobs:
           --data '[
             {
               "ipAddress": "'$RUNNER_IP'/32",
-              "comment": "Added via GitHub db-update action"
+              "comment": "Added via GitHub alloapi test action"
             }
           ]'
         shell: bash
 
+      - name: Wait for IP to propagate
+        run: sleep 30
 
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
