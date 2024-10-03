@@ -13,7 +13,7 @@ def create_app(config):
 
   if config == "dev":
     config = Config().dev_config
-  elif config == "prod":
+  elif config == "production":
     config = Config().production_config
   elif config == "test":
     config = Config().test_config
