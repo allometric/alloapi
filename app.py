@@ -1,6 +1,18 @@
-from src import config, app
+from src import create_app
+import argparse
 
-if __name__ == "__main__":
-  app.run(host = config.HOST,
-          port = config.PORT,
-          debug = config.DEBUG)
+parser = argparse.ArgumentParser()
+parser.add_argument(
+  "--config", dest = "config", type = str,
+  help = "Specify the configuration (prod, dev, test)"
+)
+
+args = parser.parse_args()
+
+app = create_app(args.config)
+
+app.run(
+  host = app.config['HOST'],
+  port = app.config['PORT'],
+  debug = app.config['DEBUG']
+)

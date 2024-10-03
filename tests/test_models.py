@@ -1,12 +1,12 @@
 def test_model_route(client):
   res = client.get(
-    '/model/cc2078aa'
+    '/model/aaaaaaa'
   )
 
   assert res.status_code == 200
 
   data = res.get_json()
-  assert data['model_id'] == 'cc2078aa'
+  assert data['_id'] == 'aaaaaaa'
 
 def test_models_route_setquals(client):
   res = client.post(

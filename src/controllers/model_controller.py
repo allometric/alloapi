@@ -1,7 +1,5 @@
-from src import app, config
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from bson.json_util import dumps, loads
-from src import mongo
 
 models = Blueprint("models", __name__)
 model = Blueprint("model", __name__)
@@ -68,7 +66,7 @@ def get_models():
 
   # TODO sanitize filter
 
-  res = mongo.db.models.find(filter, limit = config.MODEL_LIMIT)
+  res = current_app.db.models.find(filter, limit = current_app.config['MODEL_LIMIT'])
   listed = list(res)
 
   for doc in listed:
@@ -79,8 +77,8 @@ def get_models():
 
 @model.route("/<model_id>", methods = ["GET"])
 def get_model(model_id):
-  filter = {"model_id": model_id}
-  res = mongo.db.models.find(filter)
+  filter = {"_id": model_id}
+  res = current_app.db.models.find(filter)
 
   listed = list(res)
 
