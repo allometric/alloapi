@@ -1,0 +1,24 @@
+{
+  "branches": "master",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md",
+        "changelogTitle": "# allometric/alloapi changelog"
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["./DESCRIPTION", "./CHANGELOG.md"],
+        "message": "chore(release): ${nextRelease.version}"
+      }
+    ],
+    [
+      "@semantic-release/github"
+    ]
+  ]
+}
