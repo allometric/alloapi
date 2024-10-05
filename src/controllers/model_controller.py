@@ -77,10 +77,15 @@ def get_pub_doc(pub_id):
 def get_models():
   filter = request.json
 
+  page = request.args.get('page', default=1, type=int)
+  per_page = request.args.get('per_page', default=20, type=int)
+
+  skip = (page - 1) * per_page
+
   # TODO sanitize filter
   res = current_app.db.models.find(
     filter, limit = current_app.config['MODEL_LIMIT']
-  )
+  ).skip(skip).limit(per_page)
 
   listed = list(res)
 
