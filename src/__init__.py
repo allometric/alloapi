@@ -1,5 +1,4 @@
 from flask import Flask, current_app
-from flask_cors import CORS
 import os
 from src.config.config import Config
 from dotenv import load_dotenv
@@ -11,13 +10,6 @@ mongo = PyMongo()
 def create_app(config):
   # Declare flask application
   app = Flask(__name__)
-
-  CORS(
-    app,
-    resources={r"/*": {"origins": "http://localhost:5174"}},
-    methods=["GET", "POST"],
-    allow_headers=["Content-Type"]
-  )
 
   if config == "dev":
     config = Config().dev_config
