@@ -14,7 +14,9 @@ def create_app(config):
 
   CORS(
     app,
-    resources={r"/*": {"origins": "http://localhost:5174"}}
+    resources={r"/*": {"origins": "http://localhost:5174"}},
+    methods=["GET", "POST"],
+    allow_headers=["Content-Type"]
   )
 
   if config == "dev":
